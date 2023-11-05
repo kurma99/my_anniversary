@@ -64,56 +64,58 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  _MyApp createState() => _MyApp();
+}
+
+
+class _MyApp extends State<MyApp>  {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print("Selected Index: $_selectedIndex");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-              useMaterial3: true,
-            ),
+        useMaterial3: true,
+      ),
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Tabs Demo'),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bar_chart),
+                label: 'Stats',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_month),
+                label: 'Medals',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ],
           ),
-          body: const TabBarView(
-            children: [
+          body: <Widget>[
               StatsPageWidget(),
               MedalsPageWidget(),
               SettingsPageWidget(),
-            ],
-          ),
-          bottomNavigationBar: const TabBar(
-            
-            tabs: [
-              Tab(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Icon(Icons.bar_chart),
-                ),
-              ),
-              Tab(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Icon(Icons.calendar_month),
-                ),
-              ),
-              Tab(
-                icon: Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Icon(Icons.settings),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ][_selectedIndex],
+        ),   
       ),
     );
   }
-  
 }
 
 class StatsPageWidget extends StatelessWidget {
@@ -169,7 +171,7 @@ class MedalsPageWidget extends StatelessWidget {
     {'title': 'Poppy Anniversary', 'year': 8},
     {'title': 'Glass Anniversary', 'year': 9},
     {'title': 'Rose Anniversary', 'year': 10},
-    {'title': 'Coral Anniversary', 'year': 10},
+    {'title': 'Coral Anniversary', 'year': 11},
     {'title': 'Silver Anniversary', 'year': 25},
     {'title': 'Gold Anniversary', 'year': 50},
     {'title': 'Diamond Anniversary', 'year': 100},
